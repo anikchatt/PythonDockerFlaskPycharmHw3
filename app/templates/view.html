@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+{% block content %}
+
+<div class="card" class="m-5 p-2">
+    <h5 class="card-title">Game Number {{game.Game_Number}}</h5>
+
+    <ul class="list-group list-group-flush">
+        <li class="list-group-item">{{ game.Game_Number }}</li>
+    </ul>
+    <div class="card-body">
+        <a href="/edit/{{game.Game_Number}}" class="card-link btn btn-primary">edit</a>
+    </div>
+</div>
+<form action="/delete/{{game.Game_Number}}" method="post"><button type="submit" class="btn btn-danger">Save</button></form>
+
+
+{% endblock %}
+
