@@ -2,7 +2,7 @@
 
 Anik Chattopadhyay Individual Project: Web Application Part / Final . Screenshots below depict the requirements for submission 
 
-#Postman screenshots 
+# Postman screenshots 
 a) My project showing postman listing all records
 ![Records](/screenshots/postman_records.PNG)
 
@@ -24,7 +24,7 @@ e) My project showing postman deleted a record using the delete request and the 
 
 ![PostmanDelete](/screenshots/deleting_record.PNG)
 
-#Website screenshots
+# Website screenshots
 1) The Project showing that you can view your data tables in PyCharm 
 ![Data](/screenshots/database.PNG)
    
