@@ -74,7 +74,7 @@ def form_delete_post(GameNumber):
 
 
 @app.route('/api/games', methods=['GET'])
-def api_browse() -> str:
+def api_browse() -> int:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM snakes_count_100')
     result = cursor.fetchall()
@@ -84,7 +84,7 @@ def api_browse() -> str:
 
 
 @app.route('/api/games/<int:GameNumber>', methods=['GET'])
-def api_retrieve(Game_Number) -> str:
+def api_retrieve(GameNumber) -> int:
     cursor = mysql.get_db().cursor()
     cursor.execute('SELECT * FROM snakes_count_100 WHERE Game_Number=%s', GameNumber)
     result = cursor.fetchall()
@@ -93,21 +93,38 @@ def api_retrieve(Game_Number) -> str:
     return resp
 
 
-@app.route('/api/games/', methods=['POST'])
-def api_add() -> int:
-    resp = Response(status=201, mimetype='application/json')
+@app.route('/api/games/<int:GameNumber>', methods=['PUT'])
+def api_edit(GameNumber) -> int:
+    cursor = mysql.get_db().cursor()
+    content = request.json
+    inputData = (content['Game_Length'], GameNumber)
+    sql_update_query = """UPDATE snakes_count_100 t SET t.Game_Length = %s WHERE t.Game_Number = %s """
+    cursor.execute(sql_update_query, inputData)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
     return resp
 
 
-@app.route('/api/games/<int:GameNumber>', methods=['PUT'])
-def api_edit(GameNumber) -> int:
+@app.route('/api/games/', methods=['POST'])
+def api_add() -> int:
+    content = request.json
+
+    cursor = mysql.get_db().cursor()
+    inputData = (content['Game_Length'], content['Game_Number'],)
+    sql_insert_query = """ INSERT INTO snakes_count_100 (Game_Length,Game_Number) VALUES (%s, %s) """
+    cursor.execute(sql_insert_query, inputData)
+    mysql.get_db().commit()
     resp = Response(status=201, mimetype='application/json')
     return resp
 
 
 @app.route('/api/games/<int:GameNumber>', methods=['DELETE'])
-def api_delete(GameNumber) -> int:
-    resp = Response(status=210, mimetype='application/json')
+def api_delete(GameNumber) -> str:
+    cursor = mysql.get_db().cursor()
+    sql_delete_query = """DELETE FROM snakes_count_100 WHERE Game_Number = %s """
+    cursor.execute(sql_delete_query, GameNumber)
+    mysql.get_db().commit()
+    resp = Response(status=200, mimetype='application/json')
     return resp
 
 
